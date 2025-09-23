@@ -1,4 +1,4 @@
-# CFPP2000 Audio Transcription Project
+# Audio Transcription Project
 
 This project processes the **CFPP2000 corpus** (spoken French from Paris, 2000s). Audio files and their XML transcription files were obtained from the [CoCoON platform](https://cocoon.huma-num.fr). The `dataset_creation.py` script converts each XML transcription into a single line per transcript, producing `dataset.tsv` for further processing.
 
