@@ -23,6 +23,22 @@ The scripts produce TSV files for each service with the following columns:
 - `WER` : Word Error Rate
 - `CER` : Character Error Rate
 
+## Example output for results
+
+| filename                    | predicted_transcript                 | inference_time | WER  | CER  |
+|-----------------------------|-------------------------------------|----------------|------|------|
+| Alice_Cherviel_F_28_17e.mp3 | et voilà + bon alors ma première question | 12.34          | 0.05 | 0.02 |
+
+## Example output for synthesis
+
+| metric      | whisper | voxtral | cobalt |
+|------------|--------|--------|--------|
+| mean_WER   | 0.05   | 0.06   | 0.04   |
+| std_WER    | 0.01   | 0.02   | 0.01   |
+| mean_CER   | 0.02   | 0.03   | 0.02   |
+| std_CER    | 0.01   | 0.01   | 0.01   |
+
+
 ## Notes
 - Audio files are located locally in the project folder (adjust paths in the scripts if needed)
 - API keys are required for Whisper, Voxtral, and Cobalt and must be set in the script
