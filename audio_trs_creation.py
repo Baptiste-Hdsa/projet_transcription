@@ -1,7 +1,7 @@
 import os
 import shutil
 
-def deplacer_trs_vers_racine(trs_root):
+def move_trs_to_root(trs_root):
     # Check if the provided path is a valid directory
     if not os.path.isdir(trs_root):
         print(f"{trs_root} is not a valid directory.")
@@ -12,15 +12,15 @@ def deplacer_trs_vers_racine(trs_root):
         if root == trs_root:
             continue
 
-        for f in files:
+        for file in files:
             # Check if the file is a .trs file
-            if f.lower().endswith(".trs"):
-                source = os.path.join(root, f)
-                destination = os.path.join(trs_root, f)
+            if file.lower().endswith(".trs"):
+                source = os.path.join(root, file)
+                destination = os.path.join(trs_root, file)
 
                 # If a file with the same name exists, create a new unique name
                 if os.path.exists(destination):
-                    base, ext = os.path.splitext(f)
+                    base, ext = os.path.splitext(file)
                     i = 1
                     while True:
                         new_name = f"{base}_{i}{ext}"
@@ -37,4 +37,4 @@ def deplacer_trs_vers_racine(trs_root):
     print("Move completed")
 
 # Example usage: move .trs files to the root directory
-deplacer_trs_vers_racine(r"C:\Users\WMZY6987\OneDrive - orange.com\Documents\projet_trasncription\audio_trs")
+move_trs_to_root(r"C:\Users\WMZY6987\OneDrive - orange.com\Documents\projet_trasncription\audio_trs")
