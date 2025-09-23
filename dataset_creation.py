@@ -5,7 +5,7 @@ import re
 import pandas as pd
 from glob import glob
 
-def audio_info(filepath):
+def get_audio_info(filepath):
     audio = MutagenFile(filepath)
     if audio is None or not audio.info:
         raise ValueError(f"Impossible de lire infos audio: {filepath}")
@@ -20,7 +20,7 @@ def audio_info(filepath):
 import librosa
 import os
 
-def audio_info(filepath): #fonction qui envoie le filename,duration,extension,taux d'échantillonage(sample_rate)
+def get_audio_info(filepath): #fonction qui envoie le filename,duration,extension,taux d'échantillonage(sample_rate)
     y, sr = librosa.load(filepath,sr=None)
     duration = librosa.get_duration(y=y,sr=sr)
     return os.path.basename(filepath),duration, os.path.splitext(filepath)[1].replace(",",""),sr
@@ -31,7 +31,7 @@ def parse_trs(trs_file): #fonction qui renvoie un tableau des locuteurs et un ta
     tree = ET.parse(trs_file) #varible qui représente l'intrégralité du doc sous forme d'un arbre d'élements en mémoire
     root = tree.getroot() #accès à la racine de tree
 
-    speakers = [] #tableau de tout les locuteurs avec leurs nom ou id
+    speakers = [] #tableau de tout les locuteurs avec les nom et id
     speakers_elem = root.find("Speakers")
     if speakers_elem is not None:
         for spk in speakers_elem:
@@ -58,7 +58,7 @@ def build_dataset(audio_dir, trs_dir, output="dataset.tsv"):
     rows = []
     
     for audio_file in glob(os.path.join(audio_dir, "*")):
-        filename, duration, fmt, sr = audio_info(audio_file)
+        filename, duration, fmt, sr = get_audio_info(audio_file)
         
         trs_file = os.path.join(trs_dir, os.path.splitext(filename)[0] + ".trs")
         if not os.path.exists(trs_file):
