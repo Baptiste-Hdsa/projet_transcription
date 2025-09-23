@@ -18,8 +18,7 @@ def transcribe_whisper():
     Transcribe audio files using Whisper API and evaluate results.
     """
     client = openai.OpenAI(
-        api_key=api_key_whisper,
-        base_url="https://management.llmproxy.ai.orange" # LiteLLM Proxy is OpenAI compatible
+        api_key=api_key_whisper
     )
 
     results = []
@@ -28,7 +27,7 @@ def transcribe_whisper():
         reference_transcript = row["transcript"]
         filename = row["filename"]
 
-        audio_path = fr"C:\Users\WMZY6987\OneDrive - orange.com\Documents\projet_trasncription\audio_only\{filename}"
+        audio_path = os.path.join("audio_only", filename)
 
         start_time = time.time()
 
@@ -57,7 +56,7 @@ def transcribe_whisper():
 
     results_df = pd.DataFrame(results)
     results_df.to_csv(
-        r"C:\Users\WMZY6987\OneDrive - orange.com\Documents\projet_trasncription\results\results_whisper.tsv",
+        os.path.join("results", "results_whisper.tsv"),
         sep="\t",
         index=False
     )
@@ -75,7 +74,7 @@ def transcribe_whisper():
     }]
     synthesis_df = pd.DataFrame(synthesis)
     synthesis_df.to_csv(
-        r"C:\Users\WMZY6987\OneDrive - orange.com\Documents\projet_trasncription\synthesis\synthesis_whisper.tsv",
+        os.path.join("synthesis", "synthesis_whisper.tsv"),
         sep="\t",
         index=False
     )
@@ -94,7 +93,7 @@ def transcribe_voxtral():
         reference_transcript = row["transcript"]
         filename = row["filename"]
 
-        audio_path = fr"C:\Users\WMZY6987\OneDrive - orange.com\Documents\projet_trasncription\audio_only\{filename}"
+        audio_path = os.path.join("audio_only", filename)
 
         start_time = time.time()
 
@@ -128,7 +127,7 @@ def transcribe_voxtral():
 
     results_df = pd.DataFrame(results)
     results_df.to_csv(
-        r"C:\Users\WMZY6987\OneDrive - orange.com\Documents\projet_trasncription\results\results_voxtral.tsv",
+        os.path.join("results", "results_voxtral.tsv"),
         sep="\t",
         index=False
     )
@@ -146,7 +145,7 @@ def transcribe_voxtral():
     }]
     synthesis_df = pd.DataFrame(synthesis)
     synthesis_df.to_csv(
-        r"C:\Users\WMZY6987\OneDrive - orange.com\Documents\projet_trasncription\synthesis\synthesis_voxtral.tsv",
+        os.path.join("synthesis", "synthesis_voxtral.tsv"),
         sep="\t",
         index=False
     )
@@ -165,7 +164,7 @@ def transcribe_cobalt():
         reference_transcript = row["transcript"]
         filename = row["filename"]
 
-        audio_path = fr"C:\Users\WMZY6987\OneDrive - orange.com\Documents\projet_trasncription\audio_only\{filename}"
+        audio_path = os.path.join("audio_only", filename)
 
         start_time = time.time()
 
@@ -199,7 +198,7 @@ def transcribe_cobalt():
 
     results_df = pd.DataFrame(results)
     results_df.to_csv(
-        r"C:\Users\WMZY6987\OneDrive - orange.com\Documents\projet_trasncription\results\results_cobalt.tsv",
+        os.path.join("results", "results_cobalt.tsv"),
         sep="\t",
         index=False
     )
@@ -217,7 +216,7 @@ def transcribe_cobalt():
     }]
     synthesis_df = pd.DataFrame(synthesis)
     synthesis_df.to_csv(
-        r"C:\Users\WMZY6987\OneDrive - orange.com\Documents\projet_trasncription\synthesis\synthesis_cobalt.tsv",
+        os.path.join("synthesis", "synthesis_cobalt.tsv"),
         sep="\t",
         index=False
     )
