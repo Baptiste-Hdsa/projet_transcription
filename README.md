@@ -1,29 +1,35 @@
-# CFPP2000-to-TSV
+# CFPP2000 Audio Transcription Project
 
-Outil pour convertir le corpus **CFPP2000** (XML) en un fichier tabulaire **dataset.tsv**.
+This project processes the **CFPP2000 corpus** (spoken French from Paris, 2000s). Audio files and their XML transcription files were obtained from the [CoCoON platform](https://cocoon.huma-num.fr). The `dataset_creation.py` script converts each XML transcription into a single line per transcript, producing `dataset.tsv` for further processing.
 
-## Installation
-git clone https://github.com/yourusername/CFPP2000-to-TSV.git
-cd CFPP2000-to-TSV
+The main script transcribes the audio files using three different speech-to-text services: Whisper (OpenAI-compatible API), Voxtral, and Cobalt. It calculates Word Error Rate (WER) and Character Error Rate (CER) for each transcription and saves the results in TSV files.
 
-## Prérequis
-Python 3.x
+## Usage
 
-## Utilisation
-python run_converter.py
+Run the dataset creation script first:
 
-Un fichier **dataset.tsv** sera généré à la racine du projet. Il peut être ouvert dans Python (pandas), R ou Excel.
+python dataset_creation.py
 
-## Exemple de sortie
-| filename                    | duration | format | sample_rate | speakers                                | transcript                                |
-|-----------------------------|----------|--------|-------------|----------------------------------------|-------------------------------------------|
-| Alice_Cherviel_F_28_17e.mp3 | 46.06    | mp3    | 44100       | Sonia Branca-Rosoff (ENQ), Alice, spk3 | et voilà + bon alors ma première question |
+Then run the main transcription script to generate predictions and evaluation, for example by calling:
 
-## Structure du projet
-/
-├── README.md
-├── dataset.tsv
-└── run_converter.py
+transcribe_whisper()
+transcribe_voxtral()
+transcribe_cobalt()
 
-## Licence
-MIT
+The scripts produce TSV files for each service with the following columns:
+- `filename` : audio file name
+- `predicted_transcript` : transcription output
+- `inference_time` : processing time per audio
+- `WER` : Word Error Rate
+- `CER` : Character Error Rate
+
+## Example output
+
+| filename                    | predicted_transcript                 | inference_time | WER  | CER  |
+|-----------------------------|-------------------------------------|----------------|------|------|
+| Alice_Cherviel_F_28_17e.mp3 | et voilà + bon alors ma première question | 12.34          | 0.05 | 0.02 |
+
+## Notes
+- Audio files are located locally in the project folder (adjust paths in the scripts if needed)
+- API keys are required for Whisper, Voxtral, and Cobalt and must be set in the script
+- `dataset_creation.py` is necessary to convert XML files into a single line per transcript before running the transcription functions
