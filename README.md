@@ -39,7 +39,7 @@ The scripts produce TSV files for each service with the following columns:
 | std_CER    | 0.01   | 0.01   | 0.01   |
 
 ## Notes
-- Audio files are not located locally in the project folder ([dowload the audios](https://cocoon.huma-num.fr))
+- Audio files are not located locally in the project folder ([download the audios](https://cocoon.huma-num.fr))
 - API keys are required for Whisper, Voxtral, and Cobalt and must be set in the script
 - `dataset_creation.py` is necessary to convert XML files into a single line per transcript before running the transcription functions
 - The synthesis files allow for **benchmarking the three transcription services** to determine which is most accurate and efficient
