@@ -1,7 +1,7 @@
 import os
 import shutil
 
-def deplacer_audio_vers_racine(audio_root):
+def move_audio_to_root(audio_root):
     """
     Move all .mp3 and .wav files from subdirectories to the root directory.
     If a file with the same name exists in the root, append a number to the filename.
@@ -11,15 +11,15 @@ def deplacer_audio_vers_racine(audio_root):
         if root == audio_root:
             continue
 
-        for f in files:
+        for file in files:
             # Check if the file is an audio file (.mp3 or .wav)
-            if f.lower().endswith((".mp3", ".wav")):
-                source = os.path.join(root, f)
-                destination = os.path.join(audio_root, f)
+            if file.lower().endswith((".mp3", ".wav")):
+                source = os.path.join(root, file)
+                destination = os.path.join(audio_root, file)
 
                 # If a file with the same name exists, create a new unique name
                 if os.path.exists(destination):
-                    base, ext = os.path.splitext(f)
+                    base, ext = os.path.splitext(file)
                     i = 1
                     while True:
                         new_name = f"{base}_{i}{ext}"
@@ -36,4 +36,4 @@ def deplacer_audio_vers_racine(audio_root):
     print("Move completed")
 
 # Example usage: move audio files to the root directory
-deplacer_audio_vers_racine(r"C:\Users\WMZY6987\OneDrive - orange.com\Documents\projet_trasncription\audio_only")
+move_audio_to_root(r"C:\Users\WMZY6987\OneDrive - orange.com\Documents\projet_trasncription\audio_only")
