@@ -6,55 +6,66 @@ import pandas as pd
 from glob import glob
 
 def get_audio_info(filepath):
+    """
+    Extract audio file information using mutagen.
+    Returns filename, duration (seconds), extension, and sample rate.
+    """
     audio = MutagenFile(filepath)
     if audio is None or not audio.info:
-        raise ValueError(f"Impossible de lire infos audio: {filepath}")
+        raise ValueError(f"Cannot read audio info: {filepath}")
     
-    duration = audio.info.length  # durée en secondes
-    sr = getattr(audio.info, "sample_rate", None)  # certains mp3 n’ont pas d’info de sr
+    duration = audio.info.length  # duration in seconds
+    sr = getattr(audio.info, "sample_rate", None)  # some mp3 files may not have sample rate info
     ext = os.path.splitext(filepath)[1].lstrip(".")
     
-    return os.path.basename(filepath),duration, ext, sr
+    return os.path.basename(filepath), duration, ext, sr
 
 """
+Alternative using librosa (commented out):
 import librosa
 import os
 
-def get_audio_info(filepath): #fonction qui envoie le filename,duration,extension,taux d'échantillonage(sample_rate)
-    y, sr = librosa.load(filepath,sr=None)
-    duration = librosa.get_duration(y=y,sr=sr)
-    return os.path.basename(filepath),duration, os.path.splitext(filepath)[1].replace(",",""),sr
+def get_audio_info(filepath):
+    # Returns filename, duration, extension, sample rate using librosa
+    y, sr = librosa.load(filepath, sr=None)
+    duration = librosa.get_duration(y=y, sr=sr)
+    return os.path.basename(filepath), duration, os.path.splitext(filepath)[1].replace(",", ""), sr
 """
 
+def parse_trs(trs_file):
+    """
+    Parse a .trs XML file and return a list of speakers and the full transcript.
+    """
+    tree = ET.parse(trs_file)  # Load XML tree from file
+    root = tree.getroot()      # Get root element
 
-def parse_trs(trs_file): #fonction qui renvoie un tableau des locuteurs et un tableau contenant juste un élement qui est tout le transcript du fichier .trs soit un xml
-    tree = ET.parse(trs_file) #varible qui représente l'intrégralité du doc sous forme d'un arbre d'élements en mémoire
-    root = tree.getroot() #accès à la racine de tree
-
-    speakers = [] #tableau de tout les locuteurs avec les nom et id
+    speakers = []  # List of all speakers (name or id)
     speakers_elem = root.find("Speakers")
     if speakers_elem is not None:
         for spk in speakers_elem:
             name = spk.attrib.get("name")
             if not name:
-                name = spk.attrib.get("id","unknown") 
+                name = spk.attrib.get("id", "unknown") 
             speakers.append(name)
 
     transcript_parts = []
     for turn in root.findall(".//Turn"):
-        text = "".join(turn.itertext()) #recupère le texte sans balises
+        text = "".join(turn.itertext())  # Get text without tags
         text = re.sub(r'<[^>]+>', ' ', text)
-        text = text.strip()#retire les espaces, les sauts de ligne ou les tabulations inutiles au début et à la fin de la chaîne de texte
+        text = text.strip()  # Remove unnecessary spaces, newlines, tabs at start/end
         if text:
             transcript_parts.append(text)
 
-    transcript = " ".join(transcript_parts) #regroupe toute les parties en une chaine de charactère
-    transcript = " ".join(transcript.split())  #juste remplace les espaces multiples par des simples
+    transcript = " ".join(transcript_parts)  # Join all parts into a single string
+    transcript = " ".join(transcript.split())  # Replace multiple spaces with single space
     
     return speakers, transcript
 
-
 def build_dataset(audio_dir, trs_dir, output="dataset.tsv"):
+    """
+    Build a dataset by matching audio files and .trs files.
+    Save the result as a TSV file.
+    """
     rows = []
     
     for audio_file in glob(os.path.join(audio_dir, "*")):
@@ -62,7 +73,7 @@ def build_dataset(audio_dir, trs_dir, output="dataset.tsv"):
         
         trs_file = os.path.join(trs_dir, os.path.splitext(filename)[0] + ".trs")
         if not os.path.exists(trs_file):
-            print(f"Pas de fichier .trs pour {filename}, skip")
+            print(f"No .trs file for {filename}, skipping")
             continue
         
         speakers, transcript = parse_trs(trs_file)
@@ -78,7 +89,7 @@ def build_dataset(audio_dir, trs_dir, output="dataset.tsv"):
     
     df = pd.DataFrame(rows)
     df.to_csv(output, sep="\t", index=False)
-    print(f"Dataset sauvegardé dans {output}")
+    print(f"Dataset saved to {output}")
 
-
+# Build the dataset using audio and .trs directories
 build_dataset(audio_dir="audio_only", trs_dir="audio_trs", output="dataset.tsv")
