@@ -1,6 +1,6 @@
 # Audio Transcription and Benchmark Project
 
-This project processes the **CFPP2000 corpus** (spoken French from Paris, 2000s). Audio files and their XML transcription files were obtained from the [CoCoON platform](https://cocoon.huma-num.fr). The `dataset_creation.py` script converts each XML transcription into a single line per transcript, producing `dataset.tsv` for further processing.
+This project processes the **CFPP2000 corpus** (spoken French from Paris, 2000s). Audio files and their XML transcription files were obtained from the [CoCoON platform]([https://cocoon.huma-num.fr](https://cocoon.huma-num.fr/exist/crdo/meta/cocoon-8bc96a4e-9899-30e4-99be-c72d216eb38b)). The `dataset_creation.py` script converts each XML transcription into a single line per transcript, producing `dataset.tsv` for further processing.
 
 The main script transcribes the audio files using three different speech-to-text services: **Whisper (OpenAI-compatible API)**, **Voxtral**, and **Cobalt**. It calculates **Word Error Rate (WER)** and **Character Error Rate (CER)** for each transcription, saves the results in TSV files, and serves as a **benchmark to evaluate which service performs best** on this corpus.
 
@@ -39,7 +39,7 @@ The scripts produce TSV files for each service with the following columns:
 | std_CER    | 0.01   | 0.01   | 0.01   |
 
 ## Notes
-- Audio files are not located locally in the project folder ([download the audios](https://cocoon.huma-num.fr))
+- Audio files are not located locally in the project folder ([download the audios](https://cocoon.huma-num.fr/exist/crdo/meta/cocoon-8bc96a4e-9899-30e4-99be-c72d216eb38b))
 - API keys are required for Whisper, Voxtral, and Cobalt and must be set in the script
 - `dataset_creation.py` is necessary to convert XML files into a single line per transcript before running the transcription functions
 - The synthesis files allow for **benchmarking the three transcription services** to determine which is most accurate and efficient
