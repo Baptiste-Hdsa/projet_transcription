@@ -1,6 +1,6 @@
 # Audio Transcription and Benchmark Project
 
-This project processes the **CFPP2000 corpus** (spoken French from Paris, 2000s). Audio files and their XML transcription files were obtained from the [CoCoON platform]([https://cocoon.huma-num.fr](https://cocoon.huma-num.fr/exist/crdo/meta/cocoon-8bc96a4e-9899-30e4-99be-c72d216eb38b)). The `dataset_creation.py` script converts each XML transcription into a single line per transcript, producing `dataset.tsv` for further processing.
+This project processes the **CFPP2000 corpus** (spoken French from Paris, 2000s). Audio files and their XML transcription files were obtained from the [CoCoON platform]([https://cocoon.huma-num.fr](https://cocoon.huma-num.fr/exist/crdo/meta/cocoon-8bc96a4e-9899-30e4-99be-c72d216eb38b]). The `dataset_creation.py` script converts each XML transcription into a single line per transcript, producing `dataset.tsv` for further processing.
 
 The main script transcribes the audio files using three different speech-to-text services: **Whisper (OpenAI-compatible API)**, **Voxtral**, and **Cobalt**. It calculates **Word Error Rate (WER)** and **Character Error Rate (CER)** for each transcription, saves the results in TSV files, and serves as a **benchmark to evaluate which service performs best** on this corpus.
 
